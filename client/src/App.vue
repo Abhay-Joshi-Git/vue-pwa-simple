@@ -1,10 +1,9 @@
 <template>
   <div id="app">
     <header>
-      <span>Vue.js PWA</span>
+      <img  class="header-image" src="./assets/events.png" alt="Tech Events">
     </header>
     <main>
-      <img src="./assets/logo.png" alt="Vue.js PWA">
       <router-view></router-view>
     </main>
   </div>
@@ -35,10 +34,15 @@ main {
 
 header {
   margin: 0;
-  height: 56px;
+  height: 76px;
   padding: 0 16px 0 24px;
   background-color: #35495E;
   color: #ffffff;
+}
+
+.header-image {
+  height: 70px;
+  width: 70px;
 }
 
 header span {
