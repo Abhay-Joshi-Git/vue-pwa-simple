@@ -7,7 +7,7 @@
       header-border-variant="primary"
       header-bg-variant="secondary"
       header-text-variant="white"
-      class="my-3 shadow bg-white rounded"
+      class="my-3 shadow bg-white rounded event-card"
       :header="event ? event.name : 'event'"
       v-for="event in events" :key="event.id" 
     >
@@ -44,7 +44,11 @@ export default {
 }
 
 .line-content {
-  white-space: nowrap;
+  white-space: nowrap;  
+}
+
+.event-card {
+  overflow-x: auto;
 }
 /* .card-header {
   padding: 5px;

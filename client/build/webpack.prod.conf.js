@@ -100,9 +100,9 @@ const webpackConfig = merge(baseWebpackConfig, {
     ]),
     // service worker caching
     new SWPrecacheWebpackPlugin({
-      cacheId: 'vue-pwa-simple-client',
+      cacheId: 'syn-events',
       filename: 'service-worker.js',
-      staticFileGlobs: ['dist/**/*.{js,html,css}'],
+      staticFileGlobs: ['dist/**/*.{js,html,css,png}'],
       minify: true,
       stripPrefix: 'dist/'
     })

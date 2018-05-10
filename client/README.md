@@ -1,4 +1,4 @@
-# vue-pwa-simple-client
+# syn-event
 
 > vue pwa application
 
