@@ -40,15 +40,15 @@ function removeEvent(id) {
     events = _.reject(events, {id: id});
 }
 
-app.get("/events", function(req, res) {
+app.get("/api/events", function(req, res) {
 	res.send(JSON.stringify(events));
 });
 
-app.get("/event/:id", function(req, res) {
+app.get("/api/event/:id", function(req, res) {
     res.send(getEventById(parseInt(req.params.id)));
 });
 
-app.put("/event", function(req, res) {
+app.put("/api/event", function(req, res) {
     var item = getEventById(req.body.id);
     if (item) {
         editEvent(req.body.id, req.body);
@@ -58,7 +58,7 @@ app.put("/event", function(req, res) {
     }
 });
 
-app.delete("/event/:id", function(req, res) {
+app.delete("/api/event/:id", function(req, res) {
     var item = getEventById(parseInt(req.params.id));
     if (item) {
         removeEvent(parseInt(req.params.id));
@@ -68,7 +68,7 @@ app.delete("/event/:id", function(req, res) {
     }
 });
 
-app.post("/event", function(req, res) {
+app.post("/api/event", function(req, res) {
     var newEvent = req.body;
     console.log(req.body);
     var item = getEventByName(newEvent.name);
