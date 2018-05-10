@@ -1,12 +1,13 @@
 <template>
-  <div id="app">
-    <header>
+  <div id="app"> 
+    <header class="mb-3">
       <img  class="header-image" src="./assets/events.png" alt="Tech Events">
     </header>
-    <main>
+    <b-container fluid class="shadow py-3 mb-5 bg-white rounded">
       <router-view></router-view>
-    </main>
+    </b-container>
   </div>
+  
 </template>
 
 <script>
@@ -45,14 +46,4 @@ header {
   width: 70px;
 }
 
-header span {
-  display: block;
-  position: relative;
-  font-size: 20px;
-  line-height: 1;
-  letter-spacing: .02em;
-  font-weight: 400;
-  box-sizing: border-box;
-  padding-top: 16px;
-}
 </style>

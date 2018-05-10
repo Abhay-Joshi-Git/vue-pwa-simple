@@ -1,12 +1,25 @@
 <template>
-  <div>
+  <div class="event-list-container">
     <h2>
       Events List
     </h2>
-    <div v-for="event in events" :key="event.id">
-      <div>{{event.name}}</div>
-      <div>{{event.id}}</div>
-    </div>
+    <b-card
+      header-border-variant="primary"
+      header-bg-variant="secondary"
+      header-text-variant="white"
+      class="my-3 shadow bg-white rounded"
+      :header="event ? event.name : 'event'"
+      v-for="event in events" :key="event.id" 
+    >
+      <div class="line-content" :title="event.id">
+        <strong>Id:</strong>
+        {{event.id}}
+      </div>
+      <div class="line-content" :title="event.author">
+        <strong>Author:</strong>
+        {{event.author}}
+      </div>
+    </b-card>
   </div>
 </template>
 
@@ -24,4 +37,24 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.event-list-container {
+  text-align: left;
+}
+
+.line-content {
+  white-space: nowrap;
+}
+/* .card-header {
+  padding: 5px;
+} */
+/* 
+header text alignment
+.card-header > div {
+  padding-left: 15px;
+} 
+*/
+</style>
+
 
