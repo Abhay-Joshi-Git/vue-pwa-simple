@@ -1,8 +1,6 @@
 <template>
   <div id="app"> 
-    <header class="mb-3">
-      <img  class="header-image" src="./assets/events.png" alt="Tech Events">
-    </header>
+    <Header />
     <b-container fluid class="shadow py-3 mb-5 bg-white rounded">
       <router-view></router-view>
     </b-container>
@@ -12,6 +10,7 @@
 
 <script>
 import Snackbar from '@/components/Snackbar';
+import Header from '@/components/Header';
 
 const EVENTS = ['online', 'offline', 'load'];
 
@@ -24,6 +23,7 @@ export default {
   },
   components: {
     Snackbar,
+    Header,
   },
   methods: {
     updateOnlineStatus() {
@@ -55,19 +55,6 @@ body {
 main {
   text-align: center;
   margin-top: 40px;
-}
-
-header {
-  margin: 0;
-  height: 76px;
-  padding: 0 16px 0 24px;
-  background-color: #35495E;
-  color: #ffffff;
-}
-
-.header-image {
-  height: 70px;
-  width: 70px;
 }
 
 </style>
