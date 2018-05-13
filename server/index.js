@@ -2,9 +2,20 @@ const uuidV1 = require('uuid/v1');
 var express = require("express");
 var bodyParser = require('body-parser');
 var _ = require("lodash");
+var webPush = require('web-push');
+
 var app = express();
 
 var events = [];
+var notificationSubscriptions = [];
+
+// push notification sending options
+var notificationOptions = {
+    // API key is req for chrome push service
+    gcmAPIKey: 'AIzaSyBgK3RjfPsfLCOWauwA258B2V1u3-scthE',
+    TTL: 60,
+};
+
 
 app.use(bodyParser());
 app.use(function(req, res, next) {
@@ -80,6 +91,26 @@ app.post("/api/event", function(req, res) {
         res.status(400).send("record already exists");
     }
 });
+
+app.post('/api/push-subscription', function(req, res) {
+    console.log('notification subscription - ', req.body);
+    notificationSubscriptions.push(req.body);
+});
+
+function sendNotifications(newEvent) {
+    console.log('sending push notifications ...');
+    var payload = newEVent.name;
+        
+    if (notificationSubscriptions.length) {
+        notificationSubscriptions.forEach((subscription) => {
+            webPush.sendNotification(
+                subscription,
+                payload,
+                notificationOptions
+            );
+        })
+    }
+}
 
 var server = app.listen(3000, function(){
 	console.log("server listening at : " + server.address().address + ":" + server.address().port)

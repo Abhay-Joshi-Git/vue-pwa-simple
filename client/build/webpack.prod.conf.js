@@ -110,7 +110,8 @@ const webpackConfig = merge(baseWebpackConfig, {
           urlPattern: /\/api\//,
           handler: 'networkFirst'
         }
-      ]
+      ],
+      importScripts: ['src/push-notifications/pushEventsHandler.js'],
     })
   ]
 })

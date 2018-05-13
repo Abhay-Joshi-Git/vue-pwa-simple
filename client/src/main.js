@@ -10,11 +10,13 @@ import 'bootstrap-vue/dist/bootstrap-vue.css';
 
 import App from './App';
 import router from './router';
-
+import PushNotificationHelper from './push-notifications/PushNotificationHelper';
 
 Vue.config.productionTip = false;
 Vue.use(VueAxios, axios);
 Vue.use(BootstrapVue);
+
+new PushNotificationHelper(axios);
 
 /* eslint-disable no-new */
 new Vue({
