@@ -16,7 +16,8 @@ Vue.config.productionTip = false;
 Vue.use(VueAxios, axios);
 Vue.use(BootstrapVue);
 
-new PushNotificationHelper(axios);
+const notificationHelper = new PushNotificationHelper(axios);
+notificationHelper.getSubscription();
 
 /* eslint-disable no-new */
 new Vue({

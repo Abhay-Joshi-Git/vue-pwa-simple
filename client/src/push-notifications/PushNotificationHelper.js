@@ -5,18 +5,29 @@ class PushNotificationHelper {
 
   constructor(apiHelper) {
     this.apiAgent = apiHelper;
-    this.updateSubscription();
+    console.log('in notification helper cntr ...');
     navigator.serviceWorker.getRegistration().then((reg) => {
       this.swRegistration = reg;
-      this.subscribeUser();
+      console.log('got reg ..');
+      this.updateSubscription();
     });
   }
 
+  getSubscription() {
+    return this.isSubscribed;
+  }
+
   updateSubscription() {
-    swRegistration.pushManager.getSubscription().then((subscription) => {
+    if (!this.swRegistration) {
+      return;
+    }
+    this.swRegistration.pushManager.getSubscription().then((subscription) => {
+      console.log('update subscription - ', subscription);
       this.isSubscribed = subscription != null;
       if (subscription) {
         this.addSubscriptionOnServer(subscription);
+      } else {
+        this.subscribeUser();
       }
     });
   }
@@ -26,14 +37,12 @@ class PushNotificationHelper {
       return;
     }
     this.swRegistration.pushManager.subscribe({
-      userVisibleOnly: true
-    })
-    .then(function(subscription) {
+      userVisibleOnly: true,
+    }).then((subscription) => {
       console.log('User is subscribed:', subscription);
-      addSubscriptionOnServer(subscription);
+      this.addSubscriptionOnServer(subscription);
       this.isSubscribed = true;
-    })
-    .catch(function(err) {
+    }).catch((err) => {
       if (Notification.permission === 'denied') {
         console.warn('Permission for notifications was denied');
       } else {
@@ -46,18 +55,17 @@ class PushNotificationHelper {
     if (!this.swRegistration || !this.isSubscribed) {
       return;
     }
-    var subscr = subscription;
-    this.swRegistration.pushManager.getSubscription()
-    .then(function(subscription) {
+    let subscr;
+    this.swRegistration.pushManager.getSubscription().then((subscription) => {
       if (subscription) {
+        subscr = subscription;
         return subscription.unsubscribe();
       }
-    })
-    .catch(function(error) {
+      return Promise.of(null);
+    }).catch((error) => {
       console.log('Error unsubscribing', error);
-    })
-    .then(function() {
-      removeSubscriptionOnServer(subscr);
+    }).then(() => {
+      this.removeSubscriptionOnServer(subscr);
       console.log('User is unsubscribed');
       this.isSubscribed = false;
     });
@@ -65,9 +73,8 @@ class PushNotificationHelper {
 
   addSubscriptionOnServer(subscription) {
     console.log('sending subscription to server...');
-    if (this.apiAgent & subscription) {
-      this.apiAgent.POST('/api/push-subscription', subscription)
-      .catch((error) => {
+    if (this.apiAgent && subscription) {
+      this.apiAgent.POST('/api/push-subscription', subscription).catch((error) => {
         console.log('error while sending suscription to server - ', error);
       });
     }
@@ -75,9 +82,8 @@ class PushNotificationHelper {
 
   removeSubscriptionOnServer(subscription) {
     console.log('removing subscription from server...');
-    if (this.apiAgent & subscription) {
-      this.apiAgent.delete('/api/push-subscription?' + subscription.endpoint)
-      .catch((error) => {
+    if (this.apiAgent && subscription) {
+      this.apiAgent.delete(`/api/push-subscription?${subscription.endpoint}`).catch((error) => {
         console.log('error while removing suscription from server - ', error);
       });
     }

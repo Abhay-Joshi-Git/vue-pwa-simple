@@ -103,6 +103,7 @@ function sendNotifications(newEvent) {
         
     if (notificationSubscriptions.length) {
         notificationSubscriptions.forEach((subscription) => {
+            console.log(' sending notification for ', subscription.endpoint);
             webPush.sendNotification(
                 subscription,
                 payload,

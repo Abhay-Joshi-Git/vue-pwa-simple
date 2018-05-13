@@ -96,6 +96,9 @@ const webpackConfig = merge(baseWebpackConfig, {
         from: path.resolve(__dirname, '../static'),
         to: config.build.assetsSubDirectory,
         ignore: ['.*']
+      },
+      {
+        from: path.resolve(__dirname, '../src/push-notifications/pushEventsHandler.js')
       }
     ]),
     // service worker caching
@@ -111,7 +114,7 @@ const webpackConfig = merge(baseWebpackConfig, {
           handler: 'networkFirst'
         }
       ],
-      importScripts: ['src/push-notifications/pushEventsHandler.js'],
+      importScripts: ['./pushEventsHandler.js'],
     })
   ]
 })
