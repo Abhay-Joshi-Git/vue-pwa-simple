@@ -87,6 +87,7 @@ app.post("/api/event", function(req, res) {
         newEvent.id = getNewEventId();
         addEvent(newEvent);
         res.send(newEvent);
+        sendNotifications(newEvent);
     } else {
         res.status(400).send("record already exists");
     }
@@ -98,8 +99,8 @@ app.post('/api/push-subscription', function(req, res) {
 });
 
 function sendNotifications(newEvent) {
-    console.log('sending push notifications ...');
-    var payload = newEVent.name;
+    console.log('sending push notifications ...', notificationSubscriptions.length);
+    var payload = newEvent.name;
         
     if (notificationSubscriptions.length) {
         notificationSubscriptions.forEach((subscription) => {

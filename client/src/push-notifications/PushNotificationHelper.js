@@ -1,10 +1,10 @@
+import axios from 'axios';
+
 class PushNotificationHelper {
   swRegistration;
   isSubscribed = false;
-  apiAgent;
 
-  constructor(apiHelper) {
-    this.apiAgent = apiHelper;
+  constructor() {
     console.log('in notification helper cntr ...');
     navigator.serviceWorker.getRegistration().then((reg) => {
       this.swRegistration = reg;
@@ -73,8 +73,8 @@ class PushNotificationHelper {
 
   addSubscriptionOnServer(subscription) {
     console.log('sending subscription to server...');
-    if (this.apiAgent && subscription) {
-      this.apiAgent.POST('/api/push-subscription', subscription).catch((error) => {
+    if (this.isSubscribed && subscription) {
+      axios.post('/api/push-subscription', subscription).catch((error) => {
         console.log('error while sending suscription to server - ', error);
       });
     }
@@ -82,8 +82,8 @@ class PushNotificationHelper {
 
   removeSubscriptionOnServer(subscription) {
     console.log('removing subscription from server...');
-    if (this.apiAgent && subscription) {
-      this.apiAgent.delete(`/api/push-subscription?${subscription.endpoint}`).catch((error) => {
+    if (this.isSubscribed && subscription) {
+      axios.delete(`/api/push-subscription?${subscription.endpoint}`).catch((error) => {
         console.log('error while removing suscription from server - ', error);
       });
     }
