@@ -3,13 +3,36 @@ import axios from 'axios';
 class PushNotificationHelper {
   swRegistration;
   isSubscribed = false;
+  getSWRegInterval;
 
   constructor() {
     console.log('in notification helper cntr ...');
-    navigator.serviceWorker.getRegistration().then((reg) => {
+    this.getSWRegistration();
+    // this.getSWRegInterval = setInterval(() => {
+    //   this.getSWRegistration();
+    // }, 3000);
+  }
+
+  // getSWRegistration() {
+  //   console.log(' trying to get reg ..');
+  //   navigator.serviceWorker.getRegistration().then((reg) => {
+  //     this.swRegistration = reg;
+  //     console.log('got reg ..', reg);
+  //     if (reg) {
+  //       this.updateSubscription();
+  //       clearInterval(this.getSWRegInterval);
+  //       this.getSWRegInterval = null;
+  //     }
+  //   });
+  // }
+
+  getSWRegistration() {
+    navigator.serviceWorker.ready.then((reg) => {
       this.swRegistration = reg;
-      console.log('got reg ..');
-      this.updateSubscription();
+      console.log('got reg ..', reg);
+      if (reg) {
+        this.updateSubscription();
+      }
     });
   }
 
