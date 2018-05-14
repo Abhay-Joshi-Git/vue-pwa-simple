@@ -6,11 +6,28 @@ class PushNotificationHelper {
 
   constructor() {
     console.log('in notification helper cntr ...');
-    navigator.serviceWorker.getRegistration().then((reg) => {
-      this.swRegistration = reg;
-      console.log('got reg ..');
-      this.updateSubscription();
-    });
+    this.swRegistration = null;
+    this.getSWREgistration();
+  }
+
+  getSWREgistration() {
+    console.log('inside getSWREgistration >>>>> ');
+    setTimeout(() => {
+      navigator.serviceWorker.getRegistration().then((reg) => {
+        if (reg) {
+          this.initializeSWRegistration(reg);
+        } else {
+          console.log('no reg');
+        }
+      });
+    }, 1000);
+  }
+
+  initializeSWRegistration(reg) {
+    console.log('inside initializeSWRegistration >>>>> ', reg, this.swRegistration);
+    this.swRegistration = reg;
+    console.log('got reg ..', reg);
+    this.updateSubscription();
   }
 
   getSubscription() {
@@ -21,6 +38,7 @@ class PushNotificationHelper {
     if (!this.swRegistration) {
       return;
     }
+    console.log('getting subscription .. ..');
     this.swRegistration.pushManager.getSubscription().then((subscription) => {
       console.log('update subscription - ', subscription);
       this.isSubscribed = subscription != null;
