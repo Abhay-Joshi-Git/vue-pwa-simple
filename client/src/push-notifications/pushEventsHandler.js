@@ -6,17 +6,25 @@
     console.log(`Closed notification: ${primaryKey}`);
   });
 
-  self.addEventListener('notificationclick', (e) => {
-    const notification = e.notification;
-    // const primaryKey = notification.data.primaryKey;
-    const action = e.action;
-    console.log('in notification click...');
+  self.addEventListener('notificationclick', (event) => {
+    const rootUrl = new URL('/', location).href;
+    event.notification.close();
+    const action = event.action;
+    console.log('in notification click...', rootUrl, action);
 
     if (action === 'close') {
-      notification.close();
+      return;
     } else {
-      // clients.openWindow('samples/page' + primaryKey + '.html');
-      notification.close();
+      event.waitUntil(
+        clients.matchAll().then(matchedClients => {
+          for (let client of matchedClients) {
+            if (client.url === rootUrl) {
+              return client.focus();
+            }
+          }
+          return clients.openWindow("/");
+        })
+      );
     }
     // TODO - close all notifications when one is clicked
   });

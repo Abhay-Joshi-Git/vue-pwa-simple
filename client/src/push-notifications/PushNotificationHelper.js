@@ -8,23 +8,7 @@ class PushNotificationHelper {
   constructor() {
     console.log('in notification helper cntr ...');
     this.getSWRegistration();
-    // this.getSWRegInterval = setInterval(() => {
-    //   this.getSWRegistration();
-    // }, 3000);
   }
-
-  // getSWRegistration() {
-  //   console.log(' trying to get reg ..');
-  //   navigator.serviceWorker.getRegistration().then((reg) => {
-  //     this.swRegistration = reg;
-  //     console.log('got reg ..', reg);
-  //     if (reg) {
-  //       this.updateSubscription();
-  //       clearInterval(this.getSWRegInterval);
-  //       this.getSWRegInterval = null;
-  //     }
-  //   });
-  // }
 
   getSWRegistration() {
     navigator.serviceWorker.ready.then((reg) => {
@@ -63,8 +47,8 @@ class PushNotificationHelper {
       userVisibleOnly: true,
     }).then((subscription) => {
       console.log('User is subscribed:', subscription);
-      this.addSubscriptionOnServer(subscription);
       this.isSubscribed = true;
+      this.addSubscriptionOnServer(subscription);
     }).catch((err) => {
       if (Notification.permission === 'denied') {
         console.warn('Permission for notifications was denied');
@@ -95,7 +79,7 @@ class PushNotificationHelper {
   }
 
   addSubscriptionOnServer(subscription) {
-    console.log('sending subscription to server...');
+    console.log('sending subscription to server...', this.isSubscribed, subscription);
     if (this.isSubscribed && subscription) {
       axios.post('/api/push-subscription', subscription).catch((error) => {
         console.log('error while sending suscription to server - ', error);

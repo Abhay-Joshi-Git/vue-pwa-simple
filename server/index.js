@@ -94,8 +94,20 @@ app.post("/api/event", function(req, res) {
 });
 
 app.post('/api/push-subscription', function(req, res) {
-    console.log('notification subscription - ', req.body);
-    notificationSubscriptions.push(req.body);
+    const newSubscription = req.body;
+    console.log('notification subscription - ', newSubscription);
+    if (
+        newSubscription && 
+        !notificationSubscriptions.find((subscription) => subscription.endpoint === newSubscription.endpoint)
+    ) {
+        console.log('pushing subscription - ');
+        notificationSubscriptions.push(newSubscription);
+    }
+});
+
+app.delete('/api/push-subscriptions', function(req, res) {
+    console.log('deleting notification subscriptions - ');
+    notificationSubscriptions.length = 0;
 });
 
 function sendNotifications(newEvent) {
