@@ -1,7 +1,7 @@
 <template>
-  <div id="app"> 
+  <div id="app" class="d-flex flex-column h-100"> 
     <Header />
-    <b-container fluid class="shadow py-3 mb-5 bg-white rounded">
+    <b-container fluid class="shadow py-3 mb-5 bg-white rounded d-flex flex-column flex-grow">
       <router-view></router-view>
     </b-container>
     <Snackbar v-if="!isOnline" message="You appear to be offline"></Snackbar>

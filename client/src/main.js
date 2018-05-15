@@ -12,6 +12,8 @@ import App from './App';
 import router from './router';
 import PushNotificationHelper from './push-notifications/PushNotificationHelper';
 
+import './main.scss';
+
 Vue.config.productionTip = false;
 Vue.use(VueAxios, axios);
 Vue.use(BootstrapVue);

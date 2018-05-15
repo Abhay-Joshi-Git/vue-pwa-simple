@@ -1,9 +1,10 @@
 <template>
-  <div class="event-list-container">
+  <div class="event-list-container h-100 flex-grow">
     <h2>
       Events List
     </h2>
-    <b-row>
+    <div v-if="isDataLoading" class="loading"></div>
+    <b-row v-else>
       <b-col sm="10" md="5" lg="4"
         v-for="event in events" :key="event.id"      
       >
@@ -33,11 +34,15 @@ export default {
   data() {
     return {
       events: [],
+      isDataLoading: false,
     };
   },
   mounted() {
+    this.isDataLoading = true;
     this.axios.get('/api/events').then((response) => {
       this.events = response.data;
+    }).finally(() => {
+      this.isDataLoading = false;
     });
   },
 };
@@ -67,7 +72,6 @@ export default {
     text-overflow: ellipsis;
   }
 }
-
 </style>
 
 
